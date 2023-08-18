@@ -12,18 +12,13 @@ ME400.825 FA 23 Quantitative Molecular Neuroscience - JHU
         1. Use all the defaults settings. Download <https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Windows-x86_64.exe> and install.
         2. Then, open PowerShell and run
 
-        ```
         %HOMEDRIVE%%HOMEPATH%\mambaforge\condabin\conda init pwsh
-        ```
 
     </details>
 
     <details>
-        <summary>Mac</summary>
+        <summary>Mac: copy the following and paste in your terminal</summary>
 
-        Copy the following and paste in your terminal
-
-        ```sh
         if [ $(arch) = "arm64" ]; then
             file="Mambaforge-MacOSX-arm64.sh"
         else
@@ -37,6 +32,5 @@ ME400.825 FA 23 Quantitative Molecular Neuroscience - JHU
         $HOME/mambaforge/condabin/conda init zsh
         $HOME/mambaforge/condabin/mamba init zsh
         source $HOME/.zshrc
-        ```
 
     </details>
