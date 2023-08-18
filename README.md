@@ -7,11 +7,7 @@ ME400.825 FA 23 Quantitative Molecular Neuroscience - JHU
 1. Install VSCode from `https://code.visualstudio.com/download`
 2. Install conda
     <details>
-        <summary>
-
-            **Windows**
-
-        </summary>
+        <summary>Windows</summary>
 
         1. Use all the defaults settings. Download <https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Windows-x86_64.exe> and install.
         2. Then, open PowerShell and run
@@ -23,11 +19,7 @@ ME400.825 FA 23 Quantitative Molecular Neuroscience - JHU
     </details>
 
     <details>
-        <summary>
-
-            **Mac**
-
-        </summary>
+        <summary>Mac</summary>
 
         Copy the following and paste in your terminal
 
