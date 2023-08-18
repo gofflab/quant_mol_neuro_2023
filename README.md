@@ -8,11 +8,14 @@ ME400.825 FA 23 Quantitative Molecular Neuroscience - JHU
 2. Install conda
     <details>
         <summary>
+
             **Windows**
+
         </summary>
 
         1. Use all the defaults settings. Download <https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Windows-x86_64.exe> and install.
         2. Then, open PowerShell and run
+
         ```
         %HOMEDRIVE%%HOMEPATH%\mambaforge\condabin\conda init pwsh
         ```
@@ -21,8 +24,11 @@ ME400.825 FA 23 Quantitative Molecular Neuroscience - JHU
 
     <details>
         <summary>
+
             **Mac**
+
         </summary>
+
         Copy the following and paste in your terminal
 
         ```sh
@@ -40,4 +46,5 @@ ME400.825 FA 23 Quantitative Molecular Neuroscience - JHU
         $HOME/mambaforge/condabin/mamba init zsh
         source $HOME/.zshrc
         ```
+
     </details>
