@@ -2,7 +2,7 @@
 set -e
 
 # Loop over all .ipynb files in the current directory and its subdirectories
-find . -type f -name '*.ipynb' | while read file; do
+find ./modules -type f -name '*.ipynb' | while read file; do
     abs_path=$(realpath $file)
     dir=$(dirname $file)
     abs_dir=$(realpath $dir)
