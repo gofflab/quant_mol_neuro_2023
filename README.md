@@ -4,5 +4,5 @@ ME400.825 FA 23 Quantitative Molecular Neuroscience - JHU
 
 ## Setup environment
 
-- [windows.md](Windows)
-- [mac.md](Mac)
+- [Windows](windows.md)
+- [Mac](mac.md)
