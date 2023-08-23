@@ -35,6 +35,12 @@
         code --install-extension $ext
     done
 
+    mkdir -p "$HOME/Library/Application Support/Code/User/"
+    if test -f "$HOME/Library/Application Support/Code/User/settings.json"; then
+        cp "$HOME/Library/Application Support/Code/User/settings.json" "$HOME/Library/Application Support/Code/User/settings.json.old"
+    fi
+    curl https://raw.githubusercontent.com/gofflab/quant_mol_neuro_2023/main/setup/settings.json > "$HOME/Library/Application Support/Code/User/settings.json"
+
     curl -LO "https://github.com/conda-forge/miniforge/releases/latest/download/${file}"
     chmod +x $file
     ./$file -b
@@ -43,5 +49,4 @@
     $HOME/mambaforge/condabin/mamba init zsh
     source $HOME/.zshrc
 
-    ~/Library/Application Support/Code/User/settings.json
     ```

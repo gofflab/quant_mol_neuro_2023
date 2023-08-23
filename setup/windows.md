@@ -34,6 +34,14 @@
     foreach ($ext in $extensions) {
         code --install-extension $ext
     }
+
+    New-Item -ItemType Directory -Force -Path "$env:HOME/AppData/Roaming/Code/User"
+    if (Test-Path "$env:HOME/AppData/Roaming/Code/User/settings.json") {
+        Copy-Item "$env:HOME/AppData/Roaming/Code/User/settings.json" "$env:HOME/AppData/Roaming/Code/User/settings.json.old"
+
+    }
+
+    Invoke-WebRequest -Uri https://raw.githubusercontent.com/gofflab/quant_mol_neuro_2023/main/setup/settings.json -OutFile "$env:HOME/AppData/Roaming/Code/User/settings.json"
     ```
 
 5. Close and reopen PowerShell.
