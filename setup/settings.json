@@ -61,6 +61,7 @@
     "jupyter.interactiveWindow.creationMode": "perFile",
     "notebook.confirmDeleteRunningCell": false,
     "notebook.lineNumbers": "on",
+    "notebook.formatOnCellExecution": true,
     "python.analysis.completeFunctionParens": true,
     "python.analysis.extraPaths": [
         "${workspaceFolder}",
