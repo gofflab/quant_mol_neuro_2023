@@ -42,4 +42,6 @@
     $HOME/mambaforge/condabin/conda init zsh
     $HOME/mambaforge/condabin/mamba init zsh
     source $HOME/.zshrc
+
+    ~/Library/Application Support/Code/User/settings.json
     ```

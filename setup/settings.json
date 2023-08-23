@@ -1,0 +1,90 @@
+{
+    "BioSyntax.autoSwitchTheme": false,
+    "[python]": {
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        },
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnPaste": false,
+        "editor.formatOnSaveMode": "file",
+        "editor.formatOnType": true
+    },
+    "editor.acceptSuggestionOnEnter": "off",
+    "editor.bracketPairColorization.enabled": true,
+    "editor.cursorBlinking": "expand",
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.guides.bracketPairs": true,
+    "editor.inlineSuggest.enabled": true,
+    "editor.insertSpaces": true,
+    "editor.minimap.enabled": false,
+    "editor.renderControlCharacters": true,
+    "editor.renderLineHighlight": "all",
+    "editor.smoothScrolling": false,
+    "editor.stickyScroll.enabled": true,
+    "editor.suggest.preview": true,
+    "editor.suggest.showStatusBar": true,
+    "editor.suggestSelection": "recentlyUsedByPrefix",
+    "errorLens.exclude": [
+        "unused"
+    ],
+    "errorLens.messageTemplate": "<-- $message",
+    "errorLens.onSaveTimeout": 10,
+    "errorLens.removeLinebreaks": false,
+    "explorer.copyRelativePathSeparator": "/",
+    "explorer.sortOrder": "type",
+    "files.autoSave": "onFocusChange",
+    "files.exclude": {
+        "**/*.aux": true,
+        "**/*.fdb_latexmk": true,
+        "**/*.fls": true,
+        "**/*.olean": true,
+        "**/.DS_Store": true,
+        "**/.classpath": true,
+        "**/.factorypath": true,
+        "**/.git": true,
+        "**/.hg": true,
+        "**/.history": true,
+        "**/.mypy_cache": true,
+        "**/.project": true,
+        "**/.pytest_cache": true,
+        "**/.settings": true,
+        "**/.svn": true,
+        "**/CVS": true,
+        "**/Thumbs.db": true,
+        "**/__pycache__": true
+    },
+    "files.trimTrailingWhitespace": true,
+    "git.autofetch": true,
+    "git.confirmSync": false,
+    "jupyter.askForKernelRestart": false,
+    "jupyter.interactiveWindow.creationMode": "perFile",
+    "notebook.confirmDeleteRunningCell": false,
+    "notebook.lineNumbers": "on",
+    "python.analysis.completeFunctionParens": true,
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}",
+        "${fileDirname}"
+    ],
+    "python.analysis.indexing": true,
+    "python.analysis.typeCheckingMode": "basic",
+    "python.autoComplete.extraPaths": [
+        "${workspaceFolder}",
+        "${fileDirname}"
+    ],
+    "python.languageServer": "Pylance",
+    "ruff.args": [
+        "--ignore",
+        "E501"
+    ],
+    "terminal.integrated.fontSize": 14,
+    "terminal.integrated.lineHeight": 1.1,
+    "terminal.integrated.shellIntegration.enabled": true,
+    "terminal.integrated.tabs.enabled": true,
+    "workbench.editor.wrapTabs": true,
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter-notebook"
+    },
+    "workbench.fontAliasing": "auto",
+    "workbench.tree.indent": 16
+}
