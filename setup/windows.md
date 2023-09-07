@@ -2,11 +2,11 @@
 
 1. Install VSCode <https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user>
 
-2. Run PowerShell as admin and run `wsl --install`.
+2. ~~Run PowerShell as admin and run `wsl --install`.~~
 
-3. Use all the defaults settings. Download <https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Windows-x86_64.exe> and install.
+3. Download <https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Windows-x86_64.exe> and install. Use all the defaults settings. 
 
-4. Then, open PowerShell and run
+4. Then, open PowerShell (search in the start menu) and run
 
     ```pwsh
     %HOMEDRIVE%%HOMEPATH%\mambaforge\condabin\conda init pwsh
