@@ -6,10 +6,12 @@
 
 3. Download <https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Windows-x86_64.exe> and install. Use all the defaults settings. 
 
-4. Then, open PowerShell (search in the start menu) and run
+4. Then, open PowerShell as Administrator [how to](https://www.howtogeek.com/742916/how-to-open-windows-powershell-as-an-admin-in-windows-10/) and run
 
     ```pwsh
-    %HOMEDRIVE%%HOMEPATH%\mambaforge\condabin\conda init pwsh
+    $condaInitPath = Join-Path $env:HOMEDRIVE $env:HOMEPATH
+    $condaInitFullPath = Join-Path $condaInitPath 'mambaforge\condabin\conda'
+    & $condaInitFullPath init powershell
 
     $extensions = @(
     "ms-python.python",
@@ -38,7 +40,6 @@
     New-Item -ItemType Directory -Force -Path "$env:HOME/AppData/Roaming/Code/User"
     if (Test-Path "$env:HOME/AppData/Roaming/Code/User/settings.json") {
         Copy-Item "$env:HOME/AppData/Roaming/Code/User/settings.json" "$env:HOME/AppData/Roaming/Code/User/settings.json.old"
-
     }
 
     Invoke-WebRequest -Uri https://raw.githubusercontent.com/gofflab/quant_mol_neuro_2023/main/setup/settings.json -OutFile "$env:HOME/AppData/Roaming/Code/User/settings.json"
