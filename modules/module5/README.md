@@ -1,7 +1,7 @@
 # How to setup edu Rockfish
 
 1. Go to this folder in bash
-2. Run `ssh [USERNAME]@edulogin.arch.jhu.edu 'srun --time=00:10:00 --mem-per-cpu=3GB --cpus-per-task=1 bash -s' < edu_setup.sh`
+2. Run `ssh me440_<REPLACE THIS WITH YOUR JHED ID>@edulogin.arch.jhu.edu 'srun --time=00:10:00 --mem-per-cpu=3GB --cpus-per-task=1 bash -s' < edu_setup.sh`
 3. Enter your password
 4. Wait for the script to finish
 
