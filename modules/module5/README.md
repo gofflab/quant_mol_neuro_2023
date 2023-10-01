@@ -9,7 +9,7 @@
 
 **Click on the image to play**
 
-5. Run `ssh [USERNAME]@edulogin.arch.jhu.edu srun --time=2:00:00 --mem-per-cpu=4GB --cpus-per-task=2 ./code tunnel --accept-server-license-terms`
+5. Run `ssh me440_<REPLACE THIS WITH YOUR JHED ID>@edulogin.arch.jhu.edu srun --time=2:00:00 --mem-per-cpu=4GB --cpus-per-task=2 ./code tunnel --accept-server-license-terms`
 6. It will tell you to go to <https://github.com/login/device> and enter the code it gives you. You will need a GitHub account.
 7. Follow the guide at <https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-server> in the section `Connect to a tunnel`
 
