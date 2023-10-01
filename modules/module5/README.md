@@ -7,4 +7,7 @@
 5. Run `ssh [USERNAME]@edulogin.arch.jhu.edu srun --time=2:00:00 --mem-per-cpu=4GB --cpus-per-task=2 ./code tunnel`
 6. It will tell you to go to <https://github.com/login/device> and enter the code it gives you. You will need a GitHub account.
 7. Follow the guide at <https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-server> in the section `Connect to a tunnel`
+
+![output](https://github.com/gofflab/quant_mol_neuro_2023/assets/34997334/e3aa26c9-3571-4b54-8068-8914bec142aa)
+
 8. Now that you are connected, you'll need to transfer all your local extensions up. Press <Cmd+Shift+P> and type the first few words of `Remote: Install Local Extensions in '[SERVER-NAME]'`, press Enter, select everything, and click ok.
