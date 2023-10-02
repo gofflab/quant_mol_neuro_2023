@@ -1,4 +1,4 @@
-# How to setup edu Rockfish
+## How to setup edu Rockfish
 
 1. Go to this folder in bash
 2. Run `ssh me440_<**REPLACE THIS WITH YOUR JHED ID IN SMALL CAPS**>@edulogin.arch.jhu.edu 'srun --time=00:10:00 --mem-per-cpu=3GB --cpus-per-task=1 bash -s' < edu_setup.sh`
@@ -8,7 +8,9 @@
 
 ---
 
-# How to use VSCode on Rockfish
+---
+
+## How to use VSCode on Rockfish
 5. Run `ssh me440_<REPLACE THIS WITH YOUR JHED ID>@edulogin.arch.jhu.edu "srun --time=2:00:00 --mem-per-cpu=4GB --cpus-per-task=2 VSCode-linux-x64/bin/code tunnel --accept-server-license-terms && exit"`
     > For example, `ssh me440_lgoff137@edulogin.arch.jhu.edu "srun --time=2:00:00 --mem-per-cpu=4GB --cpus-per-task=2 VSCode-linux-x64/bin/code tunnel --accept-server-license-terms && exit"`
 7. It will tell you to go to <https://github.com/login/device> and enter the code it gives you. You will need a GitHub account.
