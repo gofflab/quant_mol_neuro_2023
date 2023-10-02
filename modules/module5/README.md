@@ -15,7 +15,7 @@
 
 ### Click on the image to play
 
-> ![stretched](https://github.com/gofflab/quant_mol_neuro_2023/assets/34997334/95c7c9a4-f7ac-40e5-ab57-95a43809fec1)
+![stretched](https://github.com/gofflab/quant_mol_neuro_2023/assets/34997334/e83b3259-34ab-4a93-81b5-add9a847886c)
 
 ---
 
