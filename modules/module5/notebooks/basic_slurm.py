@@ -1,3 +1,49 @@
+#%% [markdown]
+# # Module 5 - Read QC with a helpful hand from slurm
+# This notebook will introduce you to the basics of using slurm to submit jobs to the cluster.  We will use slurm to run the read qc program `fastqc` on a collection of fastq files provided for you.
+#
+# ## Learning Objectives
+# - Familiarize yourself with the basic slurm commands
+# - Learn how to submit jobs to the cluster using the slurm command `sbatch`
+# - Learn how to monitor jobs using the slurm command `squeue`
+# - Understand where and how to find the output of your jobs.
+# - Gain experience in reviewing the output of fastqc to assess the quality of the reads in a fastq file.
+#
+
+#%% [markdown]
+# ## The Task
+# We have provided you with a set of fastq files in the directory `/data/me440_lgoff2/datasets/` on the rockfish cluster.  Your task is to copy the fastq files to your working directory and run `fastqc` on each of these files and review the output to assess the quality of the reads in each file.  
+# 
+# You will submit these jobs to the cluster using slurm.
+#
+# ## The Tools
+# We will be using the following tools:
+# - `sbatch` - submit a job to the cluster (slurm is already provided/installed on the cluster so we do not need to add anything to our environment)
+# - `fastqc` - a program that assesses the quality of reads in a fastq file
+# - `multiqc` - a program that aggregates the output of multiple steps in a bioinformatics workflow (including fastqc runs) into a single report.
+#
+# To install `fastqc` and `multiqc` on your rockfish account, we will use the following command:
+#
+# _You will only need to run this once to install._
+
+#%%
+%%bash
+mamba install -c bioconda fastqc multiqc
+
+#%% [markdown]
+# _You will only need to run this once to install._
+
+#%% [markdown]
+# ## The Data
+# Next, Let's make a copy of the fastq files which are already stored on the cluster in a shared directory.
+#
+# We'll start by creating a new directory 'data' in our current working directory to store the fastq files.
+# 
+
+
+#%%
+%%bash
+mkdir data
 
 #%% [markdown]
 ## SLURM: An Introduction
@@ -21,16 +67,27 @@
 #
 # **Submission using `--wrap`**:
 #
-
+# let's say we wanted to run the following command:
+#
+# `echo 'Hello World!'`
+#
+# We could submit this job using `sbatch` as follows:
 #%% 
 %%bash
-sbatch --job-name=wrapped_job --wrap="<bash command>"
+sbatch --wrap="echo 'Hello World!'"
+
+#%% [markdown]
+# Notice the only information that we get from this is an acknowledgement that the job was submitted and a job id number.
+#
+# By default, the output of the job is written to a file called `slurm-<job_id>.out` in the current working directory. 
+#
+# Let's take a look at the contents of this 'output' file.
 
 
 #%% [markdown]
 ### 2. Monitoring Jobs with `squeue`
 #
-#`squeue` displays the status of jobs.
+#`squeue` displays the status of jobs. 
 #
 #**Basic usage**:
 #
@@ -48,7 +105,7 @@ squeue
 
 #%% 
 %%bash
-squeue -u your_username
+squeue -u lgoff2
 
 
 #%% [markdown]
@@ -68,7 +125,7 @@ squeue -o "%.4i %.9P %.30j %.8u %.2t %.10M %.6D %R"
 
 #%% 
 %%bash
-scancel job_id
+scancel <job_id>
 
 
 #%% [markdown]
@@ -76,7 +133,7 @@ scancel job_id
 
 #%% 
 %%bash
-scancel -u your_username
+scancel -u lgoff2
 
 
 #%%
