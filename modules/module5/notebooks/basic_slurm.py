@@ -180,7 +180,6 @@ done
 %%bash
 sacct
 
-
 #%% [markdown]
 ### 2. Monitoring Jobs with `squeue`
 #
@@ -282,3 +281,16 @@ srun --partition=general --nodes=2 --ntasks-per-node=2 /bin/bash
 
 
 #%% [markdown]
+# ## MultiQC
+# MultiQC is an exceptionally useful tool for aggregating the output of multiple steps or samples in a bioinformatics workflow (including fastqc runs) into a single report.
+#
+# MultiQC traverses a directory and searches for output from common bioinformatics tools, extracts the data, and generates a single report summarizing the data.
+#
+# Let's use MultiQC to aggregate the output of our fastqc runs into a single report.
+
+#%%
+%%bash
+multiqc .
+
+#%% [markdown]
+# Let's take a look at the summary report that was generated.
