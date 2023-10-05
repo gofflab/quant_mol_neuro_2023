@@ -40,10 +40,63 @@ mamba install -c bioconda fastqc multiqc
 # We'll start by creating a new directory 'data' in our current working directory to store the fastq files.
 # 
 
-
 #%%
 %%bash
 mkdir data
+
+#%% [markdown]
+# Now, we'll copy the fastq files from the shared directory to our local directory.
+#
+# These are the raw RNA-Seq reads for the HippoSeq dataset [GSE74985](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE74985).
+# 
+# The directory that contains the .fastq files is `/data/me440_lgoff2/datasets/RNA-Seq/data/raw/GSE74985`.  We can use the `cp` command to copy any file with a .fastq.gz extention from this directory to our new local directory.
+
+#%%
+%%bash
+cp /data/me440_lgoff2/datasets/RNA-Seq/data/raw/GSE74985/*.fastq.gz data/
+
+#%% [markdown]
+# Let's take a look at the files we just copied over.
+
+#%% 
+%%bash
+ls data/
+
+#%% [markdown]
+# For this exercise we want to run the read quality control program `fastqc` on each of these files.  
+# 
+# `fastqc` is a program that assesses the quality of reads in a fastq file.  It generates a report that can be used to explore the read quality.  
+# 
+# First let's create a directory to store the output of `fastqc` for each of the files.  We'll call this directory `fastqc_output`.
+
+#%%
+%%bash
+mkdir fastqc_output
+
+#%% [markdown]
+# To generate the fastqc reports we need to run the following command for each file:
+# 
+# `fastqc -o fastqc_output <fastq_file>`
+#
+# Let's try the first file `SRR2916027.fastq.gz`
+
+#%%
+%%bash
+fastqc -o fastqc_output data/SRR2916027.fastq.gz
+
+#%% [markdown]
+# This generates a report for the file `SRR2916027.fastq.gz` and stores it in the directory `fastqc_output` and takes ~3 minutes to run.
+# 
+# Let's take a look at the .html report that was generated. To do so, we can either download the file and open in a browser, or preview the file in vscode.  Let's try the latter.
+#
+# (Cmd+Shift+P) -> HTML: Open Preview
+
+#%% [markdown]
+# We still have a number of files for which to run this report.  We could run each job one at a time, but that would take a lot of babysitting.
+#
+# We could _also_ write a for loop to run each job in succession but it would still run each job sequentially.
+#
+# Instead, we can use slurm to submit each job to the cluster and let slurm manage the resources, scheduling, and execution of each job in parallel.
 
 #%% [markdown]
 ## SLURM: An Introduction
@@ -82,6 +135,50 @@ sbatch --wrap="echo 'Hello World!'"
 # By default, the output of the job is written to a file called `slurm-<job_id>.out` in the current working directory. 
 #
 # Let's take a look at the contents of this 'output' file.
+
+#%% [markdown]
+# ### Back to the matter at hand
+# Let's revisit our fastqc example.  We want to run the following command for each file:
+# 
+# `fastqc -o fastqc_output <fastq_file>`
+#
+# We can submit this job using `sbatch` as follows:
+#
+# `sbatch --wrap="fastqc -o fastqc_output <fastq_file>"`
+#
+# Let's rerun the first file `SRR2916027.fastq.gz` using `sbatch`:
+
+#%%
+%%bash
+sbatch --wrap="fastqc -o fastqc_output data/SRR2916027.fastq.gz"
+
+#%% [markdown]
+# We can check the status of our jobs using `sacct`.  Let's take a look.
+
+#%%
+%%bash
+sacct
+
+#%% [markdown]
+# We can see that our job is currently running.  We can also see the job id number, the user who submitted the job, the start time, the partition, the state, the exit code, and the elapsed time.
+
+#%% [markdown]
+# Ok, let's save ourselves some time and setup a `for` loop to submit each of the fastqc jobs for each of the `.fastq.gz` files in our `data` directory.
+#
+
+#%%
+%%bash
+for file in data/*.fastq.gz
+do
+	sbatch --wrap="fastqc -o fastqc_output $file"
+done
+
+#%% [markdown]
+# Let's check the status of our jobs again using `sacct`.
+
+#%%
+%%bash
+sacct
 
 
 #%% [markdown]
