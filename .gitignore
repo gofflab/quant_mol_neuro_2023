@@ -164,3 +164,10 @@ cython_debug/
 
 # Potentially large files
 *.zip
+
+# Course specific files
+*.bam
+*.sam 
+*.out 
+data/
+*.zip
