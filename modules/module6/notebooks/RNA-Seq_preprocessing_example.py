@@ -118,7 +118,7 @@ mkdir stringtie_quant
 for file in hisat2_alignments/*.sorted.bam
 do
     base=$(basename $file .sorted.bam)
-    sbatch --job-name=$base-stringtie -o stringtie_quant/$base-stringtie.out -e stringtie_quant/$base-stringtie.err --cpus-per-task=16 --wrap="stringtie -p 16 -e -G reference/gencode.vM33.annotation.gtf -A stringtie_quant/${base}_abundances.tab $file"
+    sbatch --job-name=$base-stringtie -o stringtie_quant/$base-stringtie.out -e stringtie_quant/$base-stringtie.err --cpus-per-task=4 --wrap="stringtie -p 4 -e -G reference/gencode.vM33.annotation.gtf -A stringtie_quant/${base}_abundances.tab $file"
 done
 
 #%% [markdown]
@@ -148,48 +148,41 @@ abundance_files.sort() #In place sorting alphanumerically
 sample_names = [x.split("/")[1].split("_")[0] for x in abundance_files]
 
 #%%
+#group_value = ["Gene ID","Gene Name"]
+group_value = ["Gene Name"]
+
 # Use list comprehension to read in all abundance files (in order) into a list of pandas dataframes
-abundances_list = [pd.read_csv(x, sep="\t",index_col=0) for x in abundance_files]
-
-for x in abundances_list:
-    x.index = x.index.str.strip()
-
-abundances_list = [x.sort_index() for x in abundances_list]
-
-
-#%%
-# Grab the gene information columns from the first dataframe
-#geneInfo = pd.DataFrame(abundances_list[0][["Gene ID","Gene Name","Reference","Strand","Start","End"]])
-
-# Concatenate the TPM columns from all dataframes into a single dataframe of expression estimates (tpm)
-#expr = pd.concat([x["TPM"] for x in abundances_list], verify_integrity=True, axis=1)
+abundances_list = [pd.read_csv(x, sep="\t",index_col=group_value) for x in abundance_files]
 
 expr = pd.DataFrame({sample_names[0]:abundances_list[0]["TPM"]}, index=abundances_list[0].index)
+expr = expr.groupby(group_value).sum("TPM") # Sum TPMs for fragmented genes output as duplicate rows by StringTie
 
 for i in range(1,len(abundances_list)):
-    expr = expr.join(abundances_list[i]["TPM"], how="outer")
+    expr_ = abundances_list[i]["TPM"]
+    expr_ = expr_.groupby(group_value).sum("TPM")
+    expr = expr.join(expr_, how="outer")
     expr.rename(columns={expr.columns[-1]: sample_names[i]},inplace=True)
 
-expr.shape
-
-
-# Rename the columns of the expression dataframe to the sample names
-expr.columns = sample_names
-
-# Concatenate the gene information and expression dataframes into a single dataframe for viewing
-dat = pd.concat([geneInfo,expr], axis=1)
+#%%
+# Check that the columns of the expression dataframe match sample names
+all(expr.columns == sample_names)
 
 #%%
-dat.head()
+# Grab the gene IDs from the index of the expression dataframe and populate a 'geneInfo' dataframe
+geneInfo = pd.DataFrame(expr.index, columns=group_value)
+geneInfo = geneInfo.set_index(group_value)
+
 
 #%% [markdown]
 #### Get the sample metadata
 metadata_file = "GSE74985_sample_info.csv"
 
-metadata = pd.read_csv(metadata_file, index_col=0)
+metadata = pd.read_csv(metadata_file, index_col=["Run"])
 
 # Trim metadata to only those columns of interest
 metadata = metadata[["cell_type","Location","Organism","Sample Name","source_name","tissue"]]
+
+metadata[["position","region","cell"]] = metadata["source_name"].str.split(" ",2,expand=True)
 
 metadata.head()
 
@@ -199,4 +192,33 @@ import anndata as ad
 #%%
 # Create AnnData object
 adata = ad.AnnData(X=expr.T, obs=metadata, var=geneInfo)
+
+# %%
+# Remove genes with no expression in any sample
+adata = adata[:,adata.X.sum(axis=0)>0]
+
+#%%
+import plotnine as pn
+
+def plot_gene(adata ,gene_id):                       
+    dat_ = adata[:,gene_id].copy()
+    plot_df = dat_.obs.copy()
+    plot_df["TPM"] = dat_.X.flatten()
+    p =  (                                                      
+        pn.ggplot(                                              
+            plot_df,     
+            pn.aes(x="source_name", y="TPM", fill="Location"),        
+        )
+        + pn.geom_boxplot(outlier_alpha=0.0)
+        + pn.geom_point(size = 1)                               
+        + pn.ggtitle(gene_id)                                   
+        + pn.xlab("Sample")                          
+        + pn.ylab("Gene Expression (TPM)")        
+        + pn.labs(color="Location") 
+        + pn.theme(legend_position="bottom")
+    )
+    return p  
+
+# %%
+plot_gene(adata,"Dll1")
 # %%

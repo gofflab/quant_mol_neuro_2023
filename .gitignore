@@ -167,7 +167,13 @@ cython_debug/
 
 # Course specific files
 *.bam
+*.bai
 *.sam 
 *.out 
 data/
 *.zip
+*.fa.gz
+*.err
+*_abundances.tab
+*.ht2
+*.genome.fa
