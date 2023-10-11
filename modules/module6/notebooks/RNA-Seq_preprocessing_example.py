@@ -216,9 +216,15 @@ def plot_gene(adata ,gene_id):
         + pn.ylab("Gene Expression (TPM)")        
         + pn.labs(color="Location") 
         + pn.theme(legend_position="bottom")
+        + pn.theme(axis_text_x=pn.element_text(rotation=90, hjust=1))
+        + pn.theme(figure_size=(5, 6))
     )
     return p  
 
 # %%
-plot_gene(adata,"Dll1")
+plot_gene(adata,"Pax6")
+
+# %%
+genes = ["Pantr1","Pantr2"]
+[plot_gene(adata,x) for x in genes]
 # %%
