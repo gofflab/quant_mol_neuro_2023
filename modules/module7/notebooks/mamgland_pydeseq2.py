@@ -10,6 +10,7 @@
 # import pydeseq2 
 import pandas as pd
 import numpy as np
+import plotnine as pn
 
 from pydeseq2.dds import DeseqDataSet
 from pydeseq2.ds import DeseqStats
@@ -186,4 +187,22 @@ stat_res.summary()
 stat_res.lfc_shrink(coeff="group_LP_vs_Basal")
 
 #%% [markdown]
+# ## Visualizations
 
+#%%
+plot_data = stat_res.results_df.copy()
+plot_data["neg_log_10_padj"] = -np.log10(plot_data["padj"])
+pval_thres = 1e-20
+plot_data["significant"] = "Not significant"
+plot_data["significant"][plot_data["padj"] <= pval_thres] = "Significant"
+
+#%%
+volcano_plot = (
+    pn.ggplot(plot_data,pn.aes(x="log2FoldChange",y="neg_log_10_padj"))
+    + pn.geom_point(pn.aes(color="significant"),alpha=0.5)
+    + pn.scale_color_manual(values=["black","red"])
+)
+
+volcano_plot
+
+# %%
