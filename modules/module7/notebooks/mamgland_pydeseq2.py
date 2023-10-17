@@ -3,7 +3,7 @@
 
 #%% [bash]
 %%bash
-#mamba install -c bioconda pydeseq2 leidenalg
+#mamba install -c bioconda pydeseq2 leidenalg seaborn
 #pip install git+https://github.com/scverse/scanpy
 
 # %%
@@ -11,6 +11,9 @@
 import pandas as pd
 import numpy as np
 import plotnine as pn
+import seaborn as sns
+
+import anndata as ad
 
 from pydeseq2.dds import DeseqDataSet
 from pydeseq2.ds import DeseqStats
@@ -41,6 +44,9 @@ geneData.head()
 # Transpose the count matrix to samples x genes
 counts = counts.T
 
+#%% Create AnnData Object
+adata = ad.AnnData(X=counts,obs=sampleData,var=geneData)
+
 #%% [markdown]
 # ## Read counts modeling
 # Read counts modeling with the DeseqDataSet class
@@ -51,10 +57,10 @@ counts = counts.T
 #
 # - refit_cooks: whether to refit cooks outliers – this is advised, in general.
 
+
 # %%
 dds = DeseqDataSet(
-    counts=counts,
-    metadata=sampleData,
+    adata = adata,
     design_factors="group",  # compare samples based on the "condition"
     # column ("B" vs "A")
     refit_cooks=True,
@@ -205,4 +211,20 @@ volcano_plot = (
 
 volcano_plot
 
+# %% [markdown]
+# ### Heatmap of significant genes
+
+#%%
+dds.layers['log1p'] = np.log1p(dds.layers['normed_counts'])
+
+# %%
+sig_gene_df = stat_res.results_df[(stat_res.results_df['padj'] <= pval_thres) & (abs(stat_res.results_df["log2FoldChange"] > 0.5)) & (stat_res.results_df["baseMean"] > 20 )]
+
+#%%
+dds_sig_genes = dds[:,sig_gene_df.index]
+# %%
+plot_data = pd.DataFrame(dds_sig_genes.layers['log1p'].T, index = dds_sig_genes.var["SYMBOL"], columns = dds_sig_genes.obs_names)
+
+# %%
+sns.clustermap(plot_data, z_score=0,cmap="RdYlBu_r")
 # %%
