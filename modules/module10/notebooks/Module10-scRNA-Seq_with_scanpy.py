@@ -1,22 +1,31 @@
+#%% [markdown]
+# # Module 10 - Single Cell RNA-Seq analysis with Scanpy
+#
+# ## Introduction
 
+#%% [markdown]
+#
+# ## Load required modules
 #%%
 import numpy as np
 import pandas as pd
+import plotnine as pn
 import anndata as ad
 import scanpy as sc
 
-#%% 
-# Download dataset
-#matrix_url = "https://cf.10xgenomics.com/samples/cell-exp/3.0.0/neuron_10k_v3/neuron_10k_v3_filtered_feature_bc_matrix.tar.gz"
-h5_url = "https://cf.10xgenomics.com/samples/cell-exp/3.0.0/neuron_10k_v3/neuron_10k_v3_filtered_feature_bc_matrix.h5"
+#%% [markdown]
+# ## Download dataset
 
 #%% [bash]
 %%bash
 mkdir -p data
 wget -P data/ https://cf.10xgenomics.com/samples/cell-exp/3.0.0/neuron_10k_v3/neuron_10k_v3_filtered_feature_bc_matrix.h5 
 
-#%%
+#%% [markdown]
+# ## Set some scanpy defaults for feedback and logging
 # Some default settings
+
+#%%
 sc.settings.verbosity = 3             # verbosity: errors (0), warnings (1), info (2), hints (3)
 sc.logging.print_header()
 sc.settings.set_figure_params(dpi=80, facecolor='white')
@@ -58,6 +67,20 @@ adata.var
 #%% 
 adata.obs
 
+#%%
+p = (
+    pn.ggplot(adata.obs,pn.aes(x='total_counts'))
+    + pn.geom_histogram()
+)
+p.draw()
+
+#%%
+p = (
+    pn.ggplot(adata.obs,pn.aes(x='n_genes_by_counts'))
+    + pn.geom_histogram()
+)
+p.draw()
+
 # %%
 sc.pl.violin(adata, ['n_genes_by_counts', 'total_counts', 'pct_counts_mt'],
              jitter=0.4, multi_panel=True)
@@ -86,7 +109,7 @@ sc.pp.log1p(adata)
 sc.pp.highly_variable_genes(adata, min_mean=0.0125, max_mean=3, min_disp=0.5)
 
 # %%
-sc.pl.highly_variable_genes(adata)
+sc.pl.highly_variable_genes(adata,)
 
 # %%
 adata.raw = adata
@@ -164,7 +187,13 @@ sc.pl.rank_genes_groups(adata, n_genes=25, sharey=False)
 ranked_genes_by_cluster = pd.DataFrame(adata.uns['rank_genes_groups']['names'])
 
 # %%
-sc.pl.rank_genes_groups_violin(adata, groups=["0","1","2"], n_genes=3, )
+sc.pl.rank_genes_groups_violin(adata, groups=["0"], n_genes=3, )
+
+#%%
+sc.pl.rank_genes_groups_heatmap(adata,n_genes=3)
+
+#%%
+sc.pl.rank_genes_groups_matrixplot(adata,n_genes=3,standard_scale='var')
 
 # %%
 sc.pl.violin(adata, ['Snap25','Slc17a6','Pax6','Gad1'], groupby='leiden')
