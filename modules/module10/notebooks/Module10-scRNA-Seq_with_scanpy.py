@@ -7,8 +7,13 @@ import scanpy as sc
 
 #%% 
 # Download dataset
-matrix_url = "https://cf.10xgenomics.com/samples/cell-exp/3.0.0/neuron_10k_v3/neuron_10k_v3_filtered_feature_bc_matrix.tar.gz"
+#matrix_url = "https://cf.10xgenomics.com/samples/cell-exp/3.0.0/neuron_10k_v3/neuron_10k_v3_filtered_feature_bc_matrix.tar.gz"
 h5_url = "https://cf.10xgenomics.com/samples/cell-exp/3.0.0/neuron_10k_v3/neuron_10k_v3_filtered_feature_bc_matrix.h5"
+
+#%% [bash]
+%%bash
+mkdir -p data
+wget -P data/ https://cf.10xgenomics.com/samples/cell-exp/3.0.0/neuron_10k_v3/neuron_10k_v3_filtered_feature_bc_matrix.h5 
 
 #%%
 # Some default settings
@@ -63,6 +68,7 @@ sc.pl.scatter(adata, x='total_counts', y='n_genes_by_counts')
 
 # %%
 adata = adata[adata.obs.pct_counts_mt < 20, :]
+adata = adata[adata.obs.n_genes_by_counts > 500, :]
 
 # %%
 sc.pl.scatter(adata, x='total_counts', y='pct_counts_mt')
